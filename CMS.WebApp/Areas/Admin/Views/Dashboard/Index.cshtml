@@ -1,0 +1,83 @@
+﻿@model CMS.Repositories.Models.PagingModel<CMS.Repositories.Models.UserModel>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core.Common;
+<style>
+    /* pagination */
+    .pagination > li.disabled {
+        opacity: .5;
+        filter: alpha(opacity=50);
+    }
+
+    .pagination > li {
+        margin: 0 4px;
+        display: inline-block;
+    }
+
+    .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+        color: #fff;
+        background-color: #f54b5b;
+        border-color: #fff;
+        cursor: default;
+    }
+
+    .pagination > li > a, .pagination > li > span {
+        width: 40px;
+        height: 40px;
+        line-height: 38px;
+        text-align: center;
+        font-size: 18px;
+        z-index: 1;
+        position: relative;
+        background-color: #2196f3;
+        color: #fff;
+        border: 1px solid #fff;
+        cursor: pointer;
+        display: inline-block;
+    }
+</style>
+
+<h4 class="text-center text-uppercase">List of User(s)</h4>
+@*<p>
+        <a asp-action="New" class="btn btn-sm btn-primary rounded-0 text-uppercase"><i class="fas fa-plus-circle"></i> Add New</a>
+    </p>*@
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>MobileNo</th>
+            <th>Designation</th>
+            <th>Country</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Data)
+        {
+            <tr>
+                <td>
+                    <img src="~/images/@user.Image"
+                         style="height: 60px; width: 55px; border-radius: 50% !important;"
+                         asp-append-version="true" />
+                    @user.Name
+                </td>
+                <td>@user.Gender</td>
+                <td>@user.Email</td>
+                <td>@user.MobileNo</td>
+                <td>@user.Designation</td>
+                <td>@user.Country</td>
+            </tr>
+
+        }
+        <tr>
+            <td colspan="6">
+                @Html.PagedListPager((IPagedList)Model.Data, page => Url.Action("Index", new
+                {
+                    page = page,
+                    pageSize = Model.PageSize
+                }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+            </td>
+        </tr>
+    </tbody>
+</table>  
